@@ -6,10 +6,11 @@ import { useRecoilValue } from 'recoil';
 import CompanyInfoCard from '../NewsCompany/CompanyInfoCard/CompanyInfoCard';
 import styled from 'styled-components';
 import { useTransition } from '@hooks';
+import { CAROUSEL_WIDTH } from '@utils/constant';
 
 const MyNewsList = () => {
   const subscribeList = useRecoilValue(mySubscribeNewsCompanyListSelector);
-  const { ulStyles, onTransitionEnd } = useTransition({ subscribeList });
+  const { ulStyles, onTransitionEnd } = useTransition({ CAROUSEL_WIDTH, subscribeList });
   const subscribeListComponent = subscribeList.map(({ id, company, thumbnews, newslist }, idx) => (
     <NewsContent key={id} {...{ id, company, thumbnews, newslist, idx }} />
   ));

@@ -1,9 +1,8 @@
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { carouselMoveState, carouselXSelector, transitionState } from '@recoilStore/news';
 import { useEffect } from 'react';
-import { CAROUSEL_WIDTH } from '@utils/constant';
 
-export const useTransition = ({ subscribeList }) => {
+export const useTransition = ({ carouselWidth, subscribeList }) => {
   const panelCount = subscribeList.length;
 
   const [x, setX] = useRecoilState(carouselXSelector);
@@ -13,12 +12,12 @@ export const useTransition = ({ subscribeList }) => {
 
   const onTransitionEnd = () => {
     setMoving(false);
-    if (x === -CAROUSEL_WIDTH * panelCount) {
+    if (x === -carouselWidth * panelCount) {
       setTransitionValue('none');
       setX(0);
-    } else if (x === CAROUSEL_WIDTH) {
+    } else if (x === carouselWidth) {
       setTransitionValue('none');
-      setX(-CAROUSEL_WIDTH * (panelCount - 1));
+      setX(-carouselWidth * (panelCount - 1));
     }
   };
 

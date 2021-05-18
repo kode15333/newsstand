@@ -29,19 +29,17 @@ export const CompanyListPageSelector = selector({
 
 export const newsFetchState = atom({
   key: 'newsFetchState',
-  default: newsFetcher.get() || [],
+  default: newsFetcher.get(),
 });
 
 export const newsFetchSelector = selector({
   key: 'newsSelector',
   get: async ({ get }) => {
     const newsList = await get(newsFetchState);
-    if (newsList.length) {
-      const { start, end } = getPagingIndex(get(CompanyListPageState));
-      return newsList.slice(start, end);
-    }
+    if (!newsList) return [];
 
-    return [];
+    const { start, end } = getPagingIndex(get(CompanyListPageState));
+    return newsList.slice(start, end);
   },
 });
 
@@ -55,9 +53,7 @@ export const mySubscribeNewsCompanyListSelector = selector({
   get: ({ get }) => {
     const newsList = get(newsFetchState);
     const subscribeList = get(mySubscribeNewsCompanyList);
-    return subscribeList.map((id) => {
-      return newsList.filter(({ id: companyId }) => companyId === id)[0];
-    });
+    return subscribeList.map((id) => newsList.find(({ id: companyId }) => companyId === id));
   },
 });
 
